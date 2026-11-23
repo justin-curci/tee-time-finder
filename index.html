@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tee Time Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <svg class="flagmark" viewBox="0 0 28 28" aria-hidden="true"><line x1="8" y1="3" x2="8" y2="25" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9 4h13l-3.5 4.5L22 13H9z" fill="var(--flag)"/><ellipse cx="14" cy="25" rx="10" ry="2.2" fill="var(--accent)" opacity=".35"/></svg>
+      <h1>Tee Time Finder</h1>
+    </div>
+    <span class="beta">Utah MVP · sample tee times, not live</span>
+  </header>
+
+  <div class="layout">
+    <form class="panel" id="search" aria-label="Search tee times">
+      <div class="field">
+        <label class="label" for="loc">Your location</label>
+        <select id="loc"></select>
+      </div>
+
+      <div class="field">
+        <label class="label" for="radius">How far you'll drive <output id="radiusOut" for="radius"></output></label>
+        <input type="range" id="radius" min="5" max="50" step="5" value="15">
+        <div class="ticks"><span>5 mi</span><span>25 mi</span><span>50 mi</span></div>
+        <p class="hint" id="radiusHint" hidden>Distance limit is off while you've picked specific courses.</p>
+      </div>
+
+      <div class="field">
+        <label class="label" for="courseQ">Specific courses <span class="opt">optional</span></label>
+        <input type="search" id="courseQ" placeholder="Search by course or city" autocomplete="off">
+        <div class="picked" id="picked"></div>
+        <div class="clist" id="clist" role="group" aria-label="Courses"></div>
+        <button type="button" class="linkbtn" id="clearCourses" hidden>Clear picked courses</button>
+      </div>
+
+      <div class="field">
+        <span class="label" id="dayLabel">Day</span>
+        <div class="chips" id="days" role="group" aria-labelledby="dayLabel"></div>
+      </div>
+
+      <div class="field">
+        <span class="label">Time slot</span>
+        <div class="row2">
+          <label><span class="sub">From</span><select id="from"></select></label>
+          <label><span class="sub">To</span><select id="to"></select></label>
+        </div>
+        <p class="err" id="timeErr" hidden>Pick an end time after the start time.</p>
+      </div>
+
+      <div class="field">
+        <span class="label" id="plLabel">Players</span>
+        <div class="seg" id="players" role="group" aria-labelledby="plLabel"></div>
+      </div>
+
+      <div class="field">
+        <span class="label" id="hoLabel">Holes</span>
+        <div class="seg" id="holes" role="group" aria-labelledby="hoLabel"></div>
+      </div>
+    </form>
+
+    <main class="results" id="results" aria-live="polite"></main>
+  </div>
+
+  <p class="note">Prototype for IS 4496. Courses and locations are real; tee times and prices are generated sample data until tee-sheet partnerships are in place. Booking always finishes on the course's own system.</p>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheet"></div>
+</div>
+
+<script src="src/data.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>

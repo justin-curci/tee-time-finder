@@ -1,0 +1,153 @@
+Issue Id,Parent Id,Issue Type,Summary,Description,Status,Priority,Story Points,Labels,Labels
+1,,Epic,Discovery & problem validation,"Prove the problem before building: golfers who know when they can play, but not where, check course booking pages one at a time because Utah tee sheets are split across city, county and private systems.",To Do,High,,discovery,
+2,,Epic,Tee-time data layer,"The feasibility risk. A clean, fresh record for every open time (spots, price with fees, walking, rate rules) so nothing the golfer sees is ever generated.",To Do,High,,data,
+3,,Epic,AI search & ranking,"The wedge. Turn 'Saturday morning, under $45, near Sandy, walking' into filters, rank every open time by fit, and explain the tradeoff in one line.",To Do,High,,ai,
+4,,Epic,Golfer search & booking experience,"One window plus constraints in, ranked shortlist out, then a handoff to the course's own booking page. Built for the Window Golfer and Group Organizer.",To Do,High,,experience,
+5,,Epic,"Evals, trust & human-in-the-loop","Place every task on the jagged frontier, set the eval bar before results are seen, and keep times and prices traceable to a real record.",To Do,High,,evals,
+6,,Epic,Launch & measurement,"Define success as an outcome, cut v1 scope, pilot in Salt Lake, then expand statewide.",To Do,High,,launch,
+7,1,Task,Problem statement with sourced fragmentation evidence,"Golfers who know when but not where check each course one at a time.
+AC:
+- Every claim tagged sourced, secondhand or synthesis
+- SLC city, county and private booking systems documented with links
+- Evidence gap stated: nothing first-party yet",Done,High,2,problem,evidence
+8,1,Task,JTBD job map and 10 scored desired outcomes (Ulwick ODI),"Core job: get a round on the calendar within the window I have free.
+AC:
+- 8-step job map with the struggle located (Locate, Prepare)
+- 10 outcome statements scored Importance + max(Imp - Sat, 0)
+- All ratings labeled hypotheses until interviews replace them",Done,High,3,jtbd,christensen
+9,1,Task,Circumstance-based segments and beachhead pick,"Beachhead: Window Golfer, with Group Organizer close behind.
+AC:
+- 5 segments cut by circumstance, not demographics
+- Each segment mapped to its top outcomes and today's workaround
+- Beachhead rationale written and flagged as synthesis",Done,Medium,2,segments,
+10,1,Task,"Opportunity solution tree: 1 outcome, 3 opportunities, 6 solutions","Target 'know which option fits'; treat 'see every open time' as table stakes.
+AC:
+- Outcome is product-movable, not revenue
+- 2 competing solutions per opportunity
+- Cheapest test named for the riskiest solution in each branch",Done,High,2,torres,ost
+11,1,Task,Competitive scan of 8 tee-time tools,"Quick Tee Times, Open Course, Supreme Golf, GolfNow/TeeOff, Chronogolf, SLC Golf, Stymie, Golf Utah.
+AC:
+- What each does for this job and the gap we can use
+- Conclusion stated: time-window search exists, so we win on fit, not coverage",Done,Medium,2,research,
+12,1,Story,Assumption map: 7 assumptions with pass thresholds set before testing,"Riskiest (updated Nov 21): golfers want a dedicated app instead of asking ChatGPT or Claude, which can now book tee times through Noteefy and PRIMO.
+AC:
+- Each assumption typed (desirability, usability, feasibility, viability)
+- Each has a test and a pass threshold written before results
+- Assistant-vs-app test added: pass if 5 of 8 golfers prefer ours
+- Fallback named if it fails: lead with group coordination",In Review,Highest,3,torres,assumptions
+13,1,Task,Interview 8 Utah golfers on their last booking,"Past behavior, not opinions: 'walk me through the last time you booked.'
+AC:
+- 8 interviews: at least 4 Window Golfers, 2 Group Organizers
+- Answers logged against assumptions 1, 2, 3 and 5
+- Hypothesized importance/satisfaction ratings updated or killed",In Progress,Highest,3,torres,interviews
+14,1,Story,Test ranked shortlist vs. plain list side by side,"Tests assumption 3 before building the ranking engine.
+AC:
+- Two clickable mocks on the same mock tee-sheet data
+- Shown to 8 golfers in random order
+- Pass: 6 of 8 pick the ranked version; decision logged",To Do,High,3,experiment,
+15,1,Task,One-page PRD for Tee Time Finder v1,"Problem, JTBD, beachhead, v1 scope, out of scope, success metrics, open questions.
+AC:
+- Every requirement traces to an opportunity on the tree
+- Updated with interview findings, not written before them",To Do,High,3,prd,
+16,2,Story,Define the tee-time record schema,"Fields: course, date/time, open spots, holes (9/18), green fee, fees, cart/walking, resident or pass rate flag, booking URL, source system, fetched_at.
+AC:
+- Every field has a type and an allowed range
+- Every field the ranking uses exists in the schema
+- Missing values have an explicit 'unknown' state, never a guess",In Progress,Highest,3,data,schema
+17,2,Story,Build a mock tee-sheet dataset for 8-12 Utah courses,"Class-scope stand-in for real feeds (assumption 6).
+AC:
+- Mix of SLC city, Salt Lake County and private courses
+- Two weekends of realistic slots, prices and spot counts
+- Labeled as mock everywhere it appears",To Do,Highest,5,data,prototype
+18,2,Story,"Course rules table: booking windows, resident rates, walking","Rule interpretation is jagged for AI, so store it as structured data.
+AC:
+- One row per course, each value with a source link
+- Every row verified by a human before use
+- Last-verified date shown",To Do,High,3,data,jagged-frontier
+19,2,Task,Spike: real data access via tee-sheet partners vs. scraping,"Timeboxed 3 days. Data access is the existential risk for the real product.
+AC:
+- Partner/API options listed for Chronogolf, GolfNow and course-run systems
+- Terms-of-service risk noted for each
+- Go / no-go recommendation written up",To Do,Medium,3,feasibility,spike
+20,2,Story,Freshness: 'checked X min ago' and recheck before handoff,"Targets outcome 8: slot gone between finding and booking.
+AC:
+- Every result shows its fetched_at age
+- Slot rechecked when the golfer taps book
+- Gone slots removed with a plain message",To Do,Medium,2,data,
+21,3,Story,Natural-language request to structured filters parser,"'Saturday 7-11, under $45, 25 min from Sandy, walking, 3 of us' becomes filters.
+AC:
+- Outputs only fields in the record schema
+- Ambiguous inputs trigger one clarifying question, not a guess
+- Parsed filters shown as editable chips",To Do,Highest,5,llm,parsing
+22,3,Story,Rank open times by constraint fit,"Deterministic score first; the LLM explains, it does not rank.
+AC:
+- Weights for price, drive time, time-in-window and walking documented
+- Ranking uses only record fields
+- Same inputs always return the same order",To Do,High,5,ranking,
+23,3,Story,One-line 'why this time' explanation,"e.g., '$8 more than #2, but 12 minutes closer and walkable.'
+AC:
+- References only values in the record and the golfer's filters
+- Never writes a time, price or spot count itself
+- Passes the traceability guardrail",To Do,High,3,llm,
+24,3,Story,Draft a group message with the top 2-3 options,"Targets outcome 5: getting the group to agree on one option.
+AC:
+- Golfer edits and sends it; the app never sends for them
+- Each option links to its live slot",To Do,Medium,2,llm,group
+25,4,Story,Wireframe the search: one window plus constraints,"AC:
+- Typed request or quick filters, golfer's choice
+- Search entered in under 30 seconds in 5 hallway tests
+- Mobile-first layout",In Review,Highest,3,ux,
+26,4,Story,Results screen: ranked shortlist with total price and drive time,"AC:
+- Top 5 ranked times, each with total price (fees included), drive time and spots left
+- Parsed-filter chips visible above results
+- 'See all times' fallback to the full unranked list",To Do,High,3,ux,
+27,4,Story,Hand off booking to the course's own system,"Book and pay stays with the golfer and the course.
+AC:
+- Deep link opens the course booking page at the chosen time when the system allows
+- Players and time carried over where possible
+- Handoff tap logged for the North Star",To Do,Highest,3,human-in-loop,booking
+28,4,Story,Alerts when a time opens in a saved window,"Targets outcome 3. Parity with Quick Tee Times' scans, not a differentiator.
+AC:
+- Golfer saves a window and constraints
+- Alert fires only for times that fit all constraints
+- At most one alert per window per hour",To Do,Low,5,alerts,
+29,5,Story,Golden parse set: 50 real phrasings labeled with correct filters,"Ground truth for every parser change. Phrasings collected from interviews and golfers' own texts.
+AC:
+- 50 requests covering time, price, distance, walking, holes, group size and slang
+- Each labeled with the correct filter set
+- Versioned; never used for prompt tuning",In Progress,Highest,5,evals,
+30,5,Story,Set the ship bar before results are seen,"Proposed bar (to validate): 90%+ of golden set fully correct; zero results untraceable to a record.
+AC:
+- Bar written and dated before the first eval run
+- Failure categories defined so misses are fixable",To Do,Highest,2,evals,
+31,5,Task,Map the jagged frontier for every step in the flow,"Per the HBS Jagged Frontier case: parse (inside), rank and explain (inside, with care), report times and prices (outside, never generated), rate rules (jagged), book and pay (human).
+AC:
+- Every step classified with a reason
+- Every human step has an owner",In Review,High,2,jagged-frontier,hbs
+32,5,Story,Guardrail: every time and price traces to a source record,"The one failure that kills trust: showing a time or price that doesn't exist.
+AC:
+- Automated check on 200 generated results and explanations
+- Zero untraceable values before launch
+- Check runs on every release",To Do,Highest,3,safety,evals
+33,5,Story,Ranking agreement eval: top pick vs. the golfer's own pick,"AC:
+- 20 golfers pick from the same unranked list we rank
+- Agreement rate recorded for top-1 and top-3
+- Disagreements reviewed to adjust weights",To Do,Medium,3,evals,
+34,6,Story,Define the North Star metric,"Proposed: weekly rounds booked through handoff that fit the golfer's window and constraints. Outcome over output (Perri).
+AC:
+- Formula and data source documented
+- Input metrics: searches completed, shortlist-to-handoff rate, filter-correction rate",In Review,Highest,2,north-star,perri
+35,6,Task,RICE-score the backlog to cut v1 scope,"AC:
+- Reach, Impact, Confidence, Effort filled for every To Do story
+- v1 cut line drawn and defended",To Do,High,2,rice,
+36,6,Task,Write pilot-quarter OKRs,"Goal-setting, separate from prioritization.
+AC:
+- 1 objective, 3 measurable key results tied to the North Star",To Do,Medium,1,okrs,
+37,6,Story,Salt Lake pilot: 25 golfers over 4 weekends,"Salt Lake first because discovery evidence is local; statewide Utah next.
+AC:
+- At least 100 completed searches
+- Weekly readout: handoff rate, filter corrections, parse misses",To Do,Medium,5,pilot,
+38,6,Story,Post-round check: did the pick fit?,"Closes the loop for the evals.
+AC:
+- One-tap question sent after the round
+- Misses added as new labeled eval cases",To Do,Low,2,feedback,

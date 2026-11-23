@@ -1,0 +1,12 @@
+{
+  "name": "tee-time-finder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Find every open public tee time near you in one search. Utah MVP with sample tee-time data.",
+  "author": "Justin Curci",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "open index.html",
+    "serve": "python3 -m http.server 8000"
+  }
+}
